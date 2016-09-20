@@ -1,25 +1,35 @@
-// This is the node.js server application                                                                                                                                                                                                     
+// This is the node.js server application
 var WebSocketServer = require('websocket').server;
 var https = require('https');
 var fs = require('fs');
-var clients = []; 
+var url = require('url');
+var clients = [];
 
-
-var options = { 
+var options = {
   key: fs.readFileSync('webrtcwwsocket-key.pem'),
   cert: fs.readFileSync('webrtcwwsocket-cert.pem'),
 };
 
 var server = https.createServer(options, function(request, response) {
-  fs.readFile(__dirname + '/index.html',
-  function (err, data) {
-    if (err) {
-      response.writeHead(500);
-      return response.end('Error loading index.html');
-    }   
-    response.writeHead(200);
-    response.end(data);
-  }); 
+    var request = url.parse(request.url, true);
+    var action = request.pathname;
+
+    if (action == '/cti_demo.png') {
+        var img = fs.readFileSync('./cti_demo.png');
+        response.writeHead(200, {'Content-Type': 'image/png' });
+        response.end(img, 'binary');
+    }
+    else {
+        fs.readFile(__dirname + '/index.html',
+                    function (err, data) {
+                        if (err) {
+                            response.writeHead(500);
+                            return response.end('Error loading index.html');
+                        }
+                        response.writeHead(200);
+                        response.end(data);
+                    });
+    }
 });
 
 server.listen(443, function() {
@@ -42,7 +52,7 @@ wsServer.on('request', function(request) {
     var connection = request.accept(null, request.origin);
     console.log(' Connection ' + connection.remoteAddress);
     clients.push(connection);
-    
+
     // This is the most important callback for us, we'll handle
     // all messages from users here.
     connection.on('message', function(message) {
@@ -53,14 +63,13 @@ wsServer.on('request', function(request) {
             clients.forEach(function (outputConnection) {
                 if (outputConnection != connection) {
                   outputConnection.send(message.utf8Data, sendCallback);
-                }   
-            }); 
-        }   
-    }); 
-    
+                }
+            });
+        }
+    });
+
     connection.on('close', function(connection) {
         // close user connection
-        console.log((new Date()) + " Peer disconnected.");    
-    }); 
+        console.log((new Date()) + " Peer disconnected.");
+    });
 });
-
