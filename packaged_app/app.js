@@ -131,7 +131,7 @@ function raiseMeetingNotification() {
 }
 
 document.querySelector('#joinMeeting').addEventListener('click', function(e) {
-  startVideo();
+  //startVideo();
 
   socket.send(JSON.stringify({
                 "pc": 0,
@@ -229,7 +229,7 @@ function share() {
 
     pconns[0].createOffer(setLocalDescAndSendMessagePC0Offer, errorCallback, mediaConstraints);
 
-    startVideo();
+    //startVideo();
 
   } else {
     console.log("Local share stream not running.");
