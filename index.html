@@ -22,9 +22,12 @@
       margin-top: -7px;
       text-align: center;
     }
-    .video-win1 {
-      width: 100%;
-        border: 1px solid black;
+   .video-win1 {
+       width: 776px;
+       border: 1px solid black;
+       display: block;
+       margin: 0 auto;
+
     }
     .video-win2 {
       width: 381px;
@@ -71,7 +74,7 @@
       margin-right: auto;
     }
     .video-section {
-      width: 860px;
+      width: 776px;
       display: block;
       margin-left: auto;
       margin-right: auto;
@@ -143,7 +146,7 @@
         <label for="vp8">VP8</label><br><br>
     </div>
     <video class="video-win1" id="shareVideo" poster="cti_demo.png" autoplay></video>
-    <div class="video-section" style="display: none;">
+    <div class="video-section">
       <table>
         <tr class="table-header">
           <td>Local Video</td>
@@ -175,7 +178,7 @@
   var socket = new WebSocket(serverLoc);
 
   var shareVideo = document.getElementById('shareVideo');
-  var shareVideoActive = false;
+   var shareVideoActive = false;
   var remoteVideo = document.getElementById('remoteVideo');
   var remoteVideoActive = false;
   var localvid = document.getElementById('localVideo');
@@ -234,7 +237,7 @@
     }
 
     // Prefer camera resolution nearest to 1280x720.
-    var constraints = { audio: false, video: true
+    var constraints = { audio: true, video: true
 	 };
 
     navigator.mediaDevices.getUserMedia(constraints)
@@ -551,13 +554,13 @@
         return;
       }
 
-      //if (!remoteVideoActive) {
-      //  remoteVideo.src = window.URL.createObjectURL(event.stream);
-      //  remoteVideo.play();
-      //  remoteVideoActive = true;
+      if (!remoteVideoActive) {
+        remoteVideo.src = window.URL.createObjectURL(event.stream);
+        remoteVideo.play();
+        remoteVideoActive = true;
       //  if (localStream)
       //   playLocalvideo();
-      //}
+      }
     }
 
     function onRemoteStreamRemoved(event) {
