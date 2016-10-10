@@ -1,5 +1,5 @@
 // Replace with your server domain or ip address, or use configure button on app to set this
-var serverAddress = '52.211.130.21' ;
+var serverAddress = '52.49.92.250' ;
 var socket = null;
 var shareVideo = null;
 var localVideo = null;
@@ -131,7 +131,7 @@ function raiseMeetingNotification() {
 }
 
 document.querySelector('#joinMeeting').addEventListener('click', function(e) {
-  //startVideo();
+  startVideo();
 
   socket.send(JSON.stringify({
                 "pc": 0,
@@ -229,7 +229,7 @@ function share() {
 
     pconns[0].createOffer(setLocalDescAndSendMessagePC0Offer, errorCallback, mediaConstraints);
 
-    //startVideo();
+    startVideo();
 
   } else {
     console.log("Local share stream not running.");
@@ -431,7 +431,7 @@ function createPeerConnection(pcID) {
   }
 
   pconns[pcID].addEventListener("addstream", onRemoteStreamAdded, false);
-  pconns[pcID].addEventListener("removestream", onRemoteStreamRemoved, false)
+    pconns[pcID].addEventListener("removestream", onRemoteStreamRemoved, false);
 
   function onRemoteStreamAdded(event) {
     console.log("Added remote stream");
