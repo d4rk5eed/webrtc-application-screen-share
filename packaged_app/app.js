@@ -239,7 +239,7 @@ function share() {
 function startVideo() {
     // grab camera and mic
     navigator.webkitGetUserMedia({
-      audio: true,
+      audio: false,
       video: true
     }, gotAudioVideoStream, errorCallback);
 }
